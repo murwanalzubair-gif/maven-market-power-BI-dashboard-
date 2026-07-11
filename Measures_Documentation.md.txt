@@ -1,0 +1,77 @@
+# DAX Measures Documentation
+
+All measures are stored in a dedicated `_Measures` table and written in dependency order to avoid calculation errors.
+
+---
+
+### 1. Total Revenue
+Total Revenue = SUMX(Fact_Transactions, Fact_Transactions[quantity] * RELATED(Dim_Products[product_retail_price]))
+
+**Description:** Sum of revenue generated from all transactions (quantity × retail price per line item).
+
+---
+
+### 2. Total Cost
+Total Cost = SUMX(Fact_Transactions, Fact_Transactions[quantity] * RELATED(Dim_Products[product_cost]))
+
+**Description:** Sum of the cost of goods sold across all transactions (quantity × product cost per line item).
+
+---
+
+### 3. Total Profit
+Total Profit = [Total Revenue] - [Total Cost]
+
+**Description:** Gross profit generated. Depends on Total Revenue and Total Cost being defined first.
+
+---
+
+### 4. Profit Margin %
+Profit Margin % = DIVIDE([Total Profit], [Total Revenue], 0)
+
+**Description:** Profit as a percentage of revenue. Uses DIVIDE to safely handle division by zero.
+
+---
+
+### 5. Transactions Count
+Transactions Count = COUNTROWS(Fact_Transactions)
+
+**Description:** Total number of transaction line items.
+
+---
+
+### 6. Returns Count
+Returns Count = COUNTROWS(Fact_Returns)
+
+**Description:** Total number of return line items.
+
+---
+
+### 7. Quantity Sold
+Quantity Sold = SUM(Fact_Transactions[quantity])
+
+**Description:** Total number of units sold.
+
+---
+
+### 8. Quantity Returned
+Quantity Returned = SUM(Fact_Returns[quantity])
+
+**Description:** Total number of units returned.
+
+---
+
+### 9. Return Rate %
+Return Rate % = DIVIDE([Returns Count], [Transactions Count], 0)
+
+**Description:** Proportion of transactions that resulted in a return. Uses DIVIDE to safely handle division by zero.
+
+---
+
+## Dependency Order Summary
+Total Revenue and Total Cost are needed before Total Profit, which is needed before Profit Margin %.
+Transactions Count and Returns Count are needed before Return Rate %.
+
+Note: Measures referencing other measures (e.g., Total Profit, Profit Margin %, Return Rate %) must be created after their dependencies to avoid reference errors in Power BI.
+
+## 👤 Author
+Murwan — Data Analytics Portfolio Project

@@ -1,0 +1,128 @@
+# Data Dictionary
+
+## Fact Tables
+
+### Fact_Transactions
+Sales transaction line items (1997 + 1998 appended).
+
+| Column | Type | Description |
+|---|---|---|
+| transaction_date | Date | Date the sale occurred |
+| stock_date | Date | Date the product was stocked |
+| product_id | Integer | Foreign key → Dim_Products |
+| customer_id | Integer | Foreign key → Dim_Customers |
+| store_id | Integer | Foreign key → Dim_Stores |
+| quantity | Integer | Units sold in this line item |
+
+Row count: ~269,720 (1997: 86,837 + 1998: 182,883)
+
+---
+
+### Fact_Returns
+Product return line items (1997 + 1998).
+
+| Column | Type | Description |
+|---|---|---|
+| return_date | Date | Date the return occurred |
+| product_id | Integer | Foreign key → Dim_Products |
+| store_id | Integer | Foreign key → Dim_Stores |
+| quantity | Integer | Units returned in this line item |
+
+Row count: 7,087
+
+Note: Fact_Returns is a second Fact table (not a Dimension) — it holds transactional/event data, same as Fact_Transactions.
+
+---
+
+## Dimension Tables
+
+### Dim_Products
+| Column | Type | Description |
+|---|---|---|
+| product_id | Integer | Primary key |
+| product_brand | String | Brand name |
+| product_name | String | Product name |
+| product_sku | Integer | Stock keeping unit |
+| product_retail_price | Float | Selling price per unit |
+| product_cost | Float | Cost per unit |
+| product_weight | Float | Product weight |
+| recyclable | Float (0/1) | Recyclable packaging flag |
+| low_fat | Float (0/1) | Low-fat product flag |
+
+Row count: 1,560
+
+---
+
+### Dim_Customers
+| Column | Type | Description |
+|---|---|---|
+| customer_id | Integer | Primary key |
+| customer_acct_num | Integer | Account number |
+| first_name / last_name | String | Customer name |
+| customer_address / city / state_province / postal_code / country | String/Int | Location details |
+| birthdate | Date | Date of birth |
+| marital_status | String | Marital status |
+| yearly_income | String | Income band (e.g. "$30K - $50K") |
+| gender | String | Gender |
+| total_children | Integer | Number of children |
+| num_children_at_home | Integer | Children living at home |
+| education | String | Education level |
+| acct_open_date | Date | Account open date |
+| member_card | String | Membership tier (Bronze/Normal/Golden/Silver) |
+| occupation | String | Occupation |
+| homeowner | String | Homeowner flag |
+
+Row count: 10,281
+
+---
+
+### Dim_Stores
+| Column | Type | Description |
+|---|---|---|
+| store_id | Integer | Primary key |
+| region_id | Integer | Foreign key → Dim_Regions |
+| store_type | String | Type of store |
+| store_name | String | Store name |
+| store_street_address / city / state / country | String | Location |
+| store_phone | String | Contact number |
+| first_opened_date | Date | Store opening date |
+| last_remodel_date | Date | Last remodel date |
+| total_sqft | Integer | Total store size |
+| grocery_sqft | Integer | Grocery area size |
+
+Row count: 24
+
+---
+
+### Dim_Regions
+| Column | Type | Description |
+|---|---|---|
+| region_id | Integer | Primary key |
+| sales_district | String | District name |
+| sales_region | String | Region name |
+
+Row count: 109
+
+---
+
+### Dim_Calendar
+| Column | Type | Description |
+|---|---|---|
+| date | Date | Single date column, marked as the official Date Table (1997–1998) |
+
+Row count: 730
+
+---
+
+## Relationships (Star Schema)
+- Fact_Transactions[product_id] → Dim_Products[product_id]
+- Fact_Transactions[customer_id] → Dim_Customers[customer_id]
+- Fact_Transactions[store_id] → Dim_Stores[store_id]
+- Fact_Transactions[transaction_date] → Dim_Calendar[date]
+- Fact_Returns[product_id] → Dim_Products[product_id]
+- Fact_Returns[store_id] → Dim_Stores[store_id]
+- Fact_Returns[return_date] → Dim_Calendar[date]
+- Dim_Stores[region_id] → Dim_Regions[region_id]
+
+## 👤 Author
+Murwan — Data Analytics Portfolio Project
