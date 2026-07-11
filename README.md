@@ -43,6 +43,12 @@ Built as a **Star Schema** in Power BI:
 3. **Customers** — top customers by revenue, revenue by membership tier, profit by income band
 4. **Returns** — return rate trend over time, top stores/regions/brands by return rate
 
+## 📸 Screenshots
+![Executive Overview](./screenshots/executive_overview.png)
+![Products](./screenshots/products.png)
+![Customers](./screenshots/Customers.png)
+![Returns](./screenshots/returns.png)
+
 ## 🔑 Key Insights
 - Total Revenue: **$1.76M** | Total Profit: **$1.05M** | Profit Margin: **~59.7%**
 - Return Rate: **~2.63%** of transactions result in a return
@@ -54,17 +60,15 @@ Built as a **Star Schema** in Power BI:
 - Star Schema modeling methodology
 
 ## 📁 Repository Structure
-...
-## 📁 Repository Structure
-├── MavenMarket_Sales_Dashboard.pbix
-├── README.md
-├── Measures_Documentation.md
-├── Data_Dictionary.md
-└── screenshots/
-    ├── executive_overview.png
-    ├── products.png
-    ├── customers.png
-    └── returns.png
+- `Maven Market Project.pbix`
+- `README.md`
+- `Measures_Documentation.md`
+- `Data_Dictionary.md`
+- `screenshots/`
+  - `executive_overview.png`
+  - `products.png`
+  - `Customers.png`
+  - `returns.png`
 
 ## 👤 Author
-Murwan — Data Analytics Portfolio Project 
+Murwan — Data Analytics Portfolio Project
